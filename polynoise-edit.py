@@ -33,7 +33,7 @@ def arPolyNoise(geoObject, maxDisplacement):
 # start the timer and add the noise
 timeStart = time.clock()
 # create a sphere and add noise
-sphere = cmds.polySphere(radius=1, subdivisionsX=200, subdivisionsY=50)
+sphere = cmds.polySphere(radius=1, subdivisionsX=200, subdivisionsY=20)
 arPolyNoise(sphere[0], 0.02)
 # stop the timer
 timeStop = time.clock()
