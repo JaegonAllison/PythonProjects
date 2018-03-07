@@ -1,4 +1,8 @@
 import maya.cmds as cmds
+import spike
+
+
+
 
 def create_car(name, length=2, width=1):
     # Create the car components
@@ -17,6 +21,7 @@ def create_body(length=2, width=1):
     # Create a plane that represents the car body.
     # Return the transform node name.
     body = cmds.polyPlane(w=length, h=width, name="body")
+    spike.addSpikes(body[0]);
     return body[0]
     
 def create_tires(body_length, body_width):
@@ -37,8 +42,9 @@ def create_tires(body_length, body_width):
 def create_tire(name, width, radius, tx, ty, tz):
     # Create a cylinder that represents a tire.
     # Return the transform node name.
-    tire = cmds.polyCube(h=width,  ax=(0,0,1), name=name)
+    tire = cmds.polyCylinder(h=width, r=radius, ax=(0,0,1), sc=True, name=name)
     cmds.setAttr("{0}.translate".format(tire[0]), tx, ty, tz)
+    spike.addSpikes(tire[0])
     return tire[0]
     
 def assemble_car(name, body, tires):
@@ -54,3 +60,8 @@ def assemble_car(name, body, tires):
 if __name__ == "__main__":
     name = create_car("test_car")
     print("Car created: {0}".format(name))
+    
+myCube = maya.cmds.polyCube()[0]
+
+maya.cmds.connectAttr(myCube+'.rx', name+'.tz')
+maya.cmds.connectAttr(myCube+'.rz', name+'.tx')
